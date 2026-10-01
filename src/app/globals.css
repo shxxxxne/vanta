@@ -1,1 +1,343 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* VANTA is a dark-only brand, so the dark palette lives on :root. */
+@custom-variant dark (&:is(.dark *));
+
+/* 1. DESIGN TOKENS (raw values) */
+:root {
+  color-scheme: dark;
+
+  /* Brand palette */
+  --vanta-black: #0a0a0a; /* page background */
+  --vanta-charcoal: #171717; /* alternating section background */
+  --vanta-graphite: #262626; /* borders, inputs, dividers */
+  --vanta-lime: #c6ff00; /* accent: CTAs, active states, key numbers ONLY */
+  --vanta-lime-hover: #d4ff3d;
+  --vanta-white: #f5f5f5; /* body + headings */
+  --vanta-gray: #a3a3a3; /* secondary copy */
+  --vanta-danger: #ff4d4d;
+
+  /* --- Semantic surface tokens ----------------------------------------- */
+  --surface-page: var(--vanta-black);
+  --surface-alt: var(--vanta-charcoal);
+  --surface-raised: #1f1f1f; /* cards on charcoal sections */
+  --border-subtle: var(--vanta-graphite);
+  --border-strong: #404040;
+
+  /* --- shadcn/ui tokens ------------------------------------------------- */
+  --background: var(--vanta-black);
+  --foreground: var(--vanta-white);
+
+  --card: var(--vanta-charcoal);
+  --card-foreground: var(--vanta-white);
+
+  --popover: var(--vanta-charcoal);
+  --popover-foreground: var(--vanta-white);
+
+  --primary: var(--vanta-lime);
+  --primary-foreground: var(--vanta-black);
+
+  --secondary: var(--vanta-charcoal);
+  --secondary-foreground: var(--vanta-white);
+
+  --muted: var(--vanta-charcoal);
+  --muted-foreground: var(--vanta-gray);
+
+  --accent: var(--vanta-graphite);
+  --accent-foreground: var(--vanta-white);
+
+  --destructive: var(--vanta-danger);
+
+  --border: var(--vanta-graphite);
+  --input: var(--vanta-graphite);
+  --ring: var(--vanta-lime);
+
+  --chart-1: var(--vanta-lime);
+  --chart-2: #8fb800;
+  --chart-3: #5c7a00;
+  --chart-4: var(--vanta-gray);
+  --chart-5: #525252;
+
+  --sidebar: var(--vanta-charcoal);
+  --sidebar-foreground: var(--vanta-white);
+  --sidebar-primary: var(--vanta-lime);
+  --sidebar-primary-foreground: var(--vanta-black);
+  --sidebar-accent: var(--vanta-graphite);
+  --sidebar-accent-foreground: var(--vanta-white);
+  --sidebar-border: var(--vanta-graphite);
+  --sidebar-ring: var(--vanta-lime);
+
+  /* Radius */
+  --radius: 0.5rem;
+
+  /* Typography: fluid scale (mobile first, scales to desktop) */
+  --text-xs: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.85rem + 0.12vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.06rem + 0.32vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 1.12rem + 0.65vw, 1.625rem);
+  --text-2xl: clamp(1.5rem, 1.25rem + 1.25vw, 2.25rem);
+  --text-3xl: clamp(1.875rem, 1.4rem + 2.4vw, 3.25rem);
+  --text-4xl: clamp(2.25rem, 1.5rem + 3.75vw, 4.5rem);
+  --text-hero: clamp(3.5rem, 1.5rem + 10vw, 9rem); /* "BUILT DIFFERENT." */
+
+  --leading-tight: 0.95;
+  --leading-snug: 1.15;
+  --leading-normal: 1.6;
+  --tracking-display: -0.03em;
+  --tracking-tight: -0.015em;
+
+  /* Layout */
+  --container-max: 80rem; /* 1280px */
+  --container-pad: clamp(1rem, 0.5rem + 2.5vw, 2rem);
+  --section-y: clamp(4rem, 2.5rem + 7vw, 8rem);
+  --nav-height: 4rem;
+  --mobile-bar-height: 4.25rem; /* bottom Call / WhatsApp / Trial bar */
+
+  /* Motion (kept deliberately small) */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-reveal: 700ms;
+
+  /* Z-index scale */
+  --z-nav: 40;
+  --z-mobile-bar: 45;
+  --z-menu: 50;
+  --z-modal: 60;
+}
+
+/* 2. TAILWIND THEME MAPPING (makes tokens available as utilities)
+   e.g. bg-background, text-primary, font-display, rounded-lg, text-hero */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Brand colors */
+  --color-lime: var(--vanta-lime);
+  --color-lime-hover: var(--vanta-lime-hover);
+  --color-surface: var(--surface-page);
+  --color-surface-alt: var(--surface-alt);
+  --color-surface-raised: var(--surface-raised);
+  --color-line: var(--border-subtle);
+  --color-line-strong: var(--border-strong);
+
+  /* Fonts (variables are injected by next/font in app/layout.tsx) */
+  --font-display:
+    var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  /* Fluid type scale */
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-4xl: var(--text-4xl);
+  --text-hero: var(--text-hero);
+  --text-hero--line-height: var(--leading-tight);
+  --text-hero--letter-spacing: var(--tracking-display);
+
+  /* Motion */
+  --ease-vanta: var(--ease-out);
+}
+
+/* 3. BASE STYLES */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* anchor links land below the sticky nav */
+    scroll-padding-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px));
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    /* keep content clear of the mobile bottom bar */
+    padding-bottom: calc(
+      var(--mobile-bar-height) + env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  @media (min-width: 768px) {
+    body {
+      padding-bottom: 0;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--vanta-lime);
+    color: var(--vanta-black);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--vanta-lime);
+    outline-offset: 3px;
+  }
+}
+
+/* 4. COMPONENT / UTILITY HELPERS */
+@layer components {
+  /* Reusable max-width wrapper (components/layout/Container.tsx) */
+  .container-vanta {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--container-pad);
+  }
+
+  /* Vertical rhythm between sections */
+  .section-y {
+    padding-block: var(--section-y);
+  }
+
+  .section-alt {
+    background-color: var(--surface-alt);
+  }
+
+  /* Display heading used in hero, prices and the logo */
+  .display {
+    font-family: var(--font-display);
+    font-size: var(--text-hero);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* Accent used for key numbers only */
+  .stat-number {
+    font-family: var(--font-display);
+    color: var(--vanta-lime);
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* Wide content (tables, code) scrolls inside itself, never the page */
+  .scroll-x {
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* 5. MOTION
+   One hero load-in, one scroll-reveal per section, hover/press states only.
+   Toggle `.is-visible` from hooks/useScrollReveal.ts */
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition:
+      opacity var(--duration-reveal) var(--ease-out),
+      transform var(--duration-reveal) var(--ease-out);
+    will-change: opacity, transform;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-enter {
+    animation: hero-enter var(--duration-reveal) var(--ease-out) both;
+  }
+
+  .press {
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+}
+
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal,
+  .hero-enter {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+}
