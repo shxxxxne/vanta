@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import { SITE } from '@/data/Site';
 import { Button } from '@/components/ui/Button';
+import ButtonPress from '../animations/ButtonPress';
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -48,18 +49,22 @@ export function Navbar() {
             {SITE.contact.phone}
           </a>
 
+<ButtonPress>
           <Link href="#contact">
             <Button>Book Free Trial</Button>
           </Link>
+</ButtonPress>
         </div>
 
         {/* Mobile actions */}
         <div className="flex items-center gap-2 md:hidden">
+          <ButtonPress>
           <Link href="#contact" onClick={closeMenu}>
             <Button className="px-3.5 py-2 text-xs uppercase tracking-wide">
               Free Trial
             </Button>
           </Link>
+</ButtonPress>
 
           <button
             type="button"
