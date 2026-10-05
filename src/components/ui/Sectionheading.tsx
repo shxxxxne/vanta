@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 interface SectionHeadingProps {
-  title: string;
+  title: string | ReactNode;
   description?: string;
   eyebrow?: string;
   align?: 'left' | 'center';
@@ -33,7 +33,7 @@ export default function SectionHeading({
         className,
       )}
     >
-      <div className={cn('max-w-2xl', centered && 'mx-auto')}>
+      <div className={cn('max-w-4xl', centered && 'mx-auto')}>
         {eyebrow && (
           <p className="mb-3 text-sm font-medium text-muted-foreground">
             {eyebrow}
