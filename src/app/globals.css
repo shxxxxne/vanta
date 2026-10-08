@@ -185,7 +185,15 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    -webkit-tap-highlight-color: transparent;
   }
+
+  input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--vanta-white);
+  box-shadow: 0 0 0 1000px var(--vanta-charcoal) inset;
+  caret-color: var(--vanta-lime);
+}
 
   html {
     scroll-behavior: smooth;
