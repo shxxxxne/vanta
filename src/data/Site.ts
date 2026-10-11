@@ -9,10 +9,11 @@ export const SITE = {
   },
 
   navigation: [
-    { label: 'Programs', href: '#programs' },
-    { label: 'Memberships', href: '#memberships' },
-    { label: 'Trainers', href: '#trainers' },
-    { label: 'Gallery', href: '#gallery' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Home', href: '/' },
+    { label: 'Programs', href: '/programs' },
+    { label: 'Memberships', href: '/memberships' },
+    { label: 'Trainers', href: '/trainers' },
+    { label: 'Gallery', href: '/gallery' },
+    { label: 'Contact', href: '/contact' },
   ],
 } as const;
