@@ -5,9 +5,9 @@ import { SITE } from '@/data/Site';
 const exploreLinks = SITE.navigation.filter((item) => item.label !== 'Contact');
 
 const getStartedLinks = [
-  { label: 'Book Free Trial', href: '#trial' },
-  { label: 'Member Results', href: '#testimonials' },
-  { label: 'Contact Us', href: '#contact' },
+  { label: 'Book Free Trial', href: '/#trial' },
+  { label: 'Member Results', href: '/#testimonials' },
+  { label: 'Contact Us', href: '/contact' },
 ];
 
 const socialLinks = [
