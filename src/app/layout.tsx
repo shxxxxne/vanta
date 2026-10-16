@@ -39,10 +39,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body>
         <Navbar />
-        <main>{children}</main>
+        <main className="pt-[var(--nav-height)]">{children}</main>
         <Footer />
       </body>
     </html>
