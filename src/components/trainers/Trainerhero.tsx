@@ -33,7 +33,7 @@ const DEFAULT_STATS: TrainerHeroStat[] = [
 
 export default function TrainerHero({
   eyebrow = 'Coaching staff',
-  title = 'Coaches who train the way they teach.',
+  title = 'Coaches who train the way they teach',
   description = 'Every VANTA coach is certified, competes or trains seriously themselves, and is on the floor with you, correcting form and adjusting your plan week to week.',
   stats = DEFAULT_STATS,
 }: TrainerHeroProps) {
