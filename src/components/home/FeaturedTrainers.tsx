@@ -18,7 +18,7 @@ export default function FeaturedTrainers() {
         <ScrollReveal>
           <SectionHeading
             eyebrow="Coaching staff"
-            title="Trained by people who compete themselves."
+            title="Trained by people who compete themselves"
             description="Every coach is certified and coaches their own training the same way they coach yours."
           />
         </ScrollReveal>
