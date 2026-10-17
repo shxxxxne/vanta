@@ -24,11 +24,9 @@ export default function FinalCTA() {
             id="final-cta-title"
             className="font-display text-3xl font-bold text-foreground sm:text-4xl md:text-5xl lg:text-6xl"
           >
-            Stop training around
+            Stop training around your goals
             <br />
-            your goals. Start training
-            <br />
-            toward them.
+            Start training toward them
           </h2>
 
           <p className="max-w-[48ch] text-base text-muted-foreground md:text-lg">
