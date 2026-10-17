@@ -278,7 +278,7 @@ Small things spotted while reviewing the code:
 
 ## Deployment
 
-The easiest route is [Vercel](https://vercel.com):
+The easiest route is [Vercel](https://vanta-xi-olive.vercel.app/):
 
 1. Push the repo to GitHub.
 2. Import the repo in Vercel (framework preset: Next.js).
