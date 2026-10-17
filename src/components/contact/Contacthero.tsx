@@ -18,7 +18,13 @@ export default function ContactHero() {
           <SectionHeading
             as="h1"
             eyebrow="Contact · Colombo 03"
-            title="Questions? Let's talk training."
+            title={
+              <>
+                Questions?
+                <br />
+                Let's talk training
+              </>
+            }
             description="Ask about programs, memberships or your first session. Call, message us on WhatsApp, or send a note and a coach will get back to you."
           />
         </HeroReveal>
