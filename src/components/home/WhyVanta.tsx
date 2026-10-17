@@ -51,9 +51,9 @@ export default function WhyVanta() {
             eyebrow="Why VANTA"
             title={
               <>
-                Most gyms sell access.
+                Most gyms sell access
                 <br />
-                We build outcomes.
+                We build outcomes
               </>
             }
             description="A neighborhood gym gives you equipment and a door code. VANTA gives you a plan, a coach, and a floor that expects more from you."
