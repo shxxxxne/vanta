@@ -53,7 +53,7 @@ export default function GalleryPreview() {
             eyebrow="Inside VANTA"
             title={
               <span id="gallery-heading">
-                The floor, the equipment, the people.
+                The floor, the equipment, the people
               </span>
             }
             description="A look at the space before you walk in."
