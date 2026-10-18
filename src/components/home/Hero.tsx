@@ -19,7 +19,7 @@ const DEFAULT_STATS: HeroStat[] = [
   { value: '500+', label: 'Active members' },
   { value: '12', label: 'Certified coaches' },
   { value: '3,200', label: 'Sq ft training floor' },
-  { value: '6', label: 'Core programs' },
+  { value: '7', label: 'Core programs' },
 ];
 
 export default function Hero({
