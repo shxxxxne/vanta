@@ -1,296 +1,743 @@
 # VANTA. Performance Gym Website
 
-> **Built Different.** A conversion-focused, mobile-first website for VANTA, a private strength and performance gym in Colombo 03, Sri Lanka.
+Conversion-focused marketing site for **VANTA**, a private strength and performance gym in **Colombo 03, Sri Lanka**. The site's one job is to get visitors to **book a free trial**, with WhatsApp, call and directions as fallbacks at every step.
 
-[![Next.js](https://img.shields.io/badge/Next.js-App_Router-black?logo=nextdotjs)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-compatible-black)](https://ui.shadcn.com)
-
-The site has one job: turn a visitor into a **free trial booking**. Every section has a clear purpose, and the "Book Free Trial" CTA is never more than one click away.
+Built with **Next.js (App Router)**, **TypeScript**, **Tailwind CSS v4**, **shadcn/ui conventions** (Radix + `cva` + `cn`), **next/font** and **Motion**. Mobile-first and responsive throughout.
 
 ---
 
 ## Table of contents
 
-1. [Tech stack](#tech-stack)
-2. [Getting started](#getting-started)
-3. [Project structure](#project-structure)
-4. [Design system](#design-system)
-5. [Page sections](#page-sections)
-6. [Content editing (data layer)](#content-editing-data-layer)
-7. [Motion](#motion)
-8. [Development rules](#development-rules)
-9. [Project process](#project-process)
-10. [Status and roadmap](#status-and-roadmap)
-11. [Known issues to fix](#known-issues-to-fix)
-12. [Deployment](#deployment)
+1. [Tech stack](#1-tech-stack)
+2. [Project status](#2-project-status)
+3. [Getting started](#3-getting-started)
+4. [Scripts](#4-scripts)
+5. [Environment variables](#5-environment-variables)
+6. [Project structure](#6-project-structure)
+7. [Architecture decisions](#7-architecture-decisions)
+8. [Page composition and sections](#8-page-composition-and-sections)
+9. [Design system](#9-design-system)
+10. [Component reference](#10-component-reference)
+11. [Content and data layer](#11-content-and-data-layer)
+12. [Trial booking form](#12-trial-booking-form)
+13. [Motion rules](#13-motion-rules)
+14. [Accessibility](#14-accessibility)
+15. [SEO and structured data](#15-seo-and-structured-data)
+16. [Performance](#16-performance)
+17. [Coding conventions](#17-coding-conventions)
+18. [QA checklist](#18-qa-checklist)
+19. [Known issues and fix backlog](#19-known-issues-and-fix-backlog)
+20. [Pre-launch content checklist](#20-pre-launch-content-checklist)
+21. [Deployment](#21-deployment)
+22. [Roadmap](#22-roadmap)
 
 ---
 
-## Tech stack
+## 1. Tech stack
 
-| Area | Choice |
+| Area | Choice | Notes |
+|---|---|---|
+| Framework | Next.js (App Router) | Server Components by default; `'use client'` only where needed |
+| Language | TypeScript (strict) | Typed data files (`src/types`) |
+| Styling | Tailwind CSS **v4.1+** | Tokens via `@theme inline` in `globals.css`. `bg-radial-[...]` needs 4.1+ |
+| UI primitives | shadcn/ui pattern | `class-variance-authority`, `clsx` + `tailwind-merge` (`cn`), `@radix-ui/react-slot`, `@radix-ui/react-popover` |
+| Fonts | `next/font/google` | Space Grotesk (display), Inter (body). Self-hosted at build time |
+| Animation | `motion` (`motion/react`) | Limited, rules in [section 13](#13-motion-rules) |
+| Icons | `lucide-react` + inline SVG | Decorative icons are `aria-hidden` |
+| Date picker | `react-day-picker` + Radix Popover | Branded, no native blue |
+| Linting | ESLint (`eslint.config.mjs`) | Plus `tsc --noEmit` |
+
+---
+
+## 2. Project status
+
+| Area | State |
 |---|---|
-| Framework | Next.js (App Router) with React 19 |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 (tokens in `globals.css`, `@theme inline`) |
-| UI primitives | shadcn/ui-compatible tokens, Radix UI (`Slot`, `Popover`) |
-| Variants | `class-variance-authority`, `clsx`, `tailwind-merge` |
-| Fonts | `next/font/google`: **Space Grotesk** (display), **Inter** (body) |
-| Animation | `motion` (`motion/react`) and `tw-animate-css` |
-| Icons | `lucide-react` plus inline SVGs |
-| Date picking | `react-day-picker` in a Radix Popover |
-| Images | `next/image` with statically imported assets |
+| Design tokens, layout, Button/Badge/Input/DatePicker/SectionHeading | Done (with fixes pending, see [section 19](#19-known-issues-and-fix-backlog)) |
+| Home sections: Hero, WhyVanta, Programs, Memberships, Trainers, Gallery, Testimonials | Built |
+| `page.tsx` composition | **Pending** (placeholder) |
+| Trial form (`#trial`) | **Pending** |
+| Contact section (`#contact`) and Final CTA | **Pending** |
+| Mobile bottom bar (Call / WhatsApp / Trial) | **Pending** |
+| SEO metadata, JSON-LD, sitemap, robots | **Pending** |
+| Real content (address, hours, photos, testimonials) | **Pending**, placeholders in use |
+
+> **Architecture decision (recommended, confirm before building):** ship as a **single scrolling page with anchor navigation**, as the blueprint specifies. The `/programs`, `/memberships`, `/trainers` and `/contact` routes from the original file tree are deferred (see [Roadmap](#22-roadmap)).
 
 ---
 
-## Getting started
+## 3. Getting started
 
 ### Prerequisites
 
-- Node.js 20 or newer
-- npm, pnpm or yarn
+- Node.js **20.9+** (LTS recommended)
+- npm, pnpm or yarn (examples use npm)
+- Git
 
 ### Install and run
 
 ```bash
-# 1. Clone
-git clone https://github.com/<your-username>/vanta.git
+git clone <your-repo-url> vanta
 cd vanta
-
-# 2. Install
 npm install
-
-# 3. Develop
-npm run dev        # http://localhost:3000
-
-# 4. Production build
-npm run build
-npm run start
-
-# 5. Lint
-npm run lint
+cp .env.example .env.local   # then fill in values (see section 5)
+npm run dev
 ```
 
-### Add your images
+Open <http://localhost:3000>.
 
-Photos are imported statically from `src/images/`. Drop matching files in before running:
+### Optional: initialise shadcn/ui
 
+The project follows shadcn conventions but hand-rolls Button, Input and Badge. To add official components (Select, Textarea, etc.):
+
+```bash
+npx shadcn@latest init
+npx shadcn@latest add select textarea
 ```
-src/images/
-├── gallery/        strength-zone.jpg, free-weight-floor.jpg, functional-rig.jpg,
-│                   recovery-room.jpg, pt-studio.jpg, community-sessions.jpg,
-│                   members-training-coach.jpg
-├── trainers/       kavindu-perera.jpg, dinithi-silva.jpg, ashan-fernando.jpg
-└── testimonials/   ruwan.jpg, nadia.jpg, tharindu.jpg
-```
+
+Keep the VANTA tokens in `globals.css`. Do not let the CLI overwrite them. Review the diff before accepting.
 
 ---
 
-## Project structure
+## 4. Scripts
 
-Everything lives under `src/`.
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | ESLint |
+| `npx tsc --noEmit` | Type check |
+
+Recommended pre-commit / CI gate: `lint` + `tsc --noEmit` + `build`.
+
+---
+
+## 5. Environment variables
+
+Create `.env.local` (never commit it) and keep an `.env.example` in the repo.
+
+```bash
+# Public
+NEXT_PUBLIC_SITE_URL=https://vanta.fit
+
+# Trial form delivery (if using Resend)
+RESEND_API_KEY=
+TRIAL_TO_EMAIL=hello@vanta.fit
+TRIAL_FROM_EMAIL="VANTA <noreply@vanta.fit>"
+```
+
+> Lead destination is an open decision: **email via Resend** (simplest), Google Sheet/Airtable, or WhatsApp notification. Variables above assume Resend.
+
+---
+
+## 6. Project structure
+
+The project uses a `src/` directory and the `@/*` alias (`@/` maps to `src/`).
 
 ```
 vanta/
+├── public/
+│   ├── icons/
+│   ├── logo/
+│   └── og.jpg                         # 1200x630 social share image
+│
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx            Fonts, metadata, viewport, Navbar + Footer
-│   │   ├── page.tsx              Home (single scrolling page)
-│   │   └── globals.css           Design tokens, base styles, helpers
+│   │   ├── layout.tsx                 # Fonts, metadata, Navbar, Footer, MobileBar, MotionProvider
+│   │   ├── page.tsx                   # Single-page composition (HomePage)
+│   │   ├── globals.css                # Tokens, theme mapping, base styles
+│   │   ├── actions/
+│   │   │   └── trial.ts               # Server action: validate + deliver lead
+│   │   ├── sitemap.ts
+│   │   └── robots.ts
 │   │
 │   ├── components/
-│   │   ├── animations/           Reusable motion wrappers
-│   │   │   ├── HeroReveal.tsx    Load-in with blur, hero only
-│   │   │   ├── ScrollReveal.tsx  One reveal per section
-│   │   │   ├── HoverLift.tsx     Card hover lift
-│   │   │   ├── ButtonPress.tsx   Hover/tap scale
-│   │   │   └── ImageZoom.tsx     Image zoom on hover
-│   │   ├── layout/               Navbar, Footer, Container
-│   │   ├── home/                 Hero, WhyVanta, FeaturedPrograms,
-│   │   │                         FeaturedMemberships, FeaturedTrainers,
-│   │   │                         GalleryPreview, Testimonials
-│   │   └── ui/                   Button, Badge, Input, DatePicker, SectionHeading
+│   │   ├── animations/
+│   │   │   ├── MotionProvider.tsx     # <MotionConfig reducedMotion="user">
+│   │   │   ├── HeroReveal.tsx         # One-time hero load-in
+│   │   │   ├── ScrollReveal.tsx       # One reveal per section
+│   │   │   ├── HoverLift.tsx          # Card hover (y: -8)
+│   │   │   ├── ButtonPress.tsx        # Button hover/tap scale
+│   │   │   └── ImageZoom.tsx          # Image hover zoom
+│   │   ├── layout/
+│   │   │   ├── Navbar.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   ├── MobileBar.tsx          # Call / WhatsApp / Book Free Trial (mobile only)
+│   │   │   ├── Logo.tsx               # "VANTA" + lime dot, shared by Navbar and Footer
+│   │   │   └── Container.tsx
+│   │   ├── home/
+│   │   │   ├── Hero.tsx
+│   │   │   ├── WhyVanta.tsx
+│   │   │   ├── FeaturedPrograms.tsx
+│   │   │   ├── FeaturedMemberships.tsx
+│   │   │   ├── FeaturedTrainers.tsx
+│   │   │   ├── GalleryPreview.tsx
+│   │   │   ├── Testimonials.tsx
+│   │   │   ├── TrialSection.tsx       # Reassurance copy + TrialForm
+│   │   │   ├── ContactSection.tsx     # Info, hours, map
+│   │   │   └── FinalCTA.tsx
+│   │   └── ui/
+│   │       ├── Button.tsx             # cva + cn + asChild
+│   │       ├── Badge.tsx
+│   │       ├── Input.tsx
+│   │       ├── Select.tsx             # Native select styled with inputStyles
+│   │       ├── DatePicker.tsx
+│   │       └── SectionHeading.tsx
 │   │
-│   ├── data/                     All editable content (typed)
-│   │   ├── Site.ts               Brand, contact, navigation
-│   │   ├── Programs.ts           Training programs
-│   │   ├── Memberships.ts        Pricing plans
-│   │   ├── Trainers.ts           Coaches
-│   │   ├── Testimonials.ts       Member reviews
-│   │   ├── Gallery.ts            Facility photos and zones
-│   │   └── Trial.ts              Trial form goals and time slots
+│   ├── data/                          # All editable content lives here
+│   │   ├── site.ts                    # Business info, nav, hours, socials
+│   │   ├── programs.ts
+│   │   ├── memberships.ts
+│   │   ├── trainers.ts
+│   │   ├── testimonials.ts
+│   │   ├── gallery.ts
+│   │   └── trial.ts                   # Goals + time slots
+│   │
+│   ├── images/                        # Statically imported (auto width/height + blur)
+│   │   ├── gallery/
+│   │   ├── trainers/
+│   │   └── testimonials/
 │   │
 │   ├── lib/
-│   │   ├── utils.ts              cn() class merger
-│   │   └── validations.ts        isEmail, isPhone, isNotEmpty, date helpers
+│   │   ├── utils.ts                   # cn()
+│   │   └── validations.ts             # isNotEmpty, isEmail, isPhone, todayISO, isTodayOrFuture
 │   │
-│   ├── types/                    program, membership, trainer, testimonial, gallery
-│   └── images/                   Statically imported photos
+│   └── types/
+│       ├── program.ts
+│       ├── membership.ts
+│       ├── trainer.ts
+│       ├── testimonial.ts
+│       └── gallery.ts
 │
-├── public/                       Icons, logo, static files
+├── components.json                    # Created by `shadcn init` (optional)
 ├── next.config.ts
 ├── tsconfig.json
 ├── eslint.config.mjs
-└── package.json
+├── package.json
+└── README.md
+```
+
+**File-name casing:** use the exact casing shown above (`SectionHeading.tsx`, `GalleryPreview.tsx`, `DatePicker.tsx`, lowercase `data/*.ts`). Case-only mismatches pass on macOS/Windows and **fail on Linux hosts such as Vercel**. See [section 19](#19-known-issues-and-fix-backlog) for the safe rename procedure.
+
+---
+
+## 7. Architecture decisions
+
+- **Single page, anchor navigation.** Keeps "Book Free Trial" one click away and matches the conversion goal. Anchors: `#home #why #programs #memberships #trainers #gallery #testimonials #trial #contact`.
+- **Server Components by default.** Sections are server-rendered. Only animation wrappers, Navbar, DatePicker and the form are client components.
+- **Content separate from UI.** Copy, prices and photos live in `src/data/*` with typed shapes in `src/types/*`. Marketing edits never touch component code.
+- **Tokens, not hardcoded values.** Components use semantic utilities (`bg-background`, `text-muted-foreground`, `border-line`, `text-primary`). Raw `--vanta-*` variables exist only in `globals.css`.
+- **Static image imports.** Images are imported from `src/images/*` so Next.js knows dimensions and can generate blur placeholders.
+- **One conversion path.** The trial form is the only form. A separate contact form was dropped to avoid splitting leads.
+
+---
+
+## 8. Page composition and sections
+
+Order in `src/app/page.tsx` (background alternates to create rhythm):
+
+| # | Section | Anchor | Background | Purpose |
+|---|---|---|---|---|
+| 1 | Hero | `#home` | page | Promise, location credibility, primary CTA, stat strip |
+| 2 | WhyVanta | `#why` | alt | "Why is this better than my local gym?" |
+| 3 | FeaturedPrograms | `#programs` | page | Three featured programs, self-qualify |
+| 4 | FeaturedMemberships | `#memberships` | alt | Three plans, middle emphasised |
+| 5 | FeaturedTrainers | `#trainers` | page | Trust through coaches |
+| 6 | GalleryPreview | `#gallery` | alt | Six-zone asymmetric mosaic |
+| 7 | Testimonials | `#testimonials` | page | Social proof |
+| 8 | TrialSection | `#trial` | alt | **Primary conversion** |
+| 9 | ContactSection | `#contact` | page | Address, hours, map, directions |
+| 10 | FinalCTA | n/a | alt / glow | Catch scroll-to-bottom visitors |
+
+Persistent elements: sticky **Navbar**, **Footer**, and the **mobile bottom bar** (Call / WhatsApp / Book Free Trial), which replaces any desktop floating WhatsApp bubble.
+
+```tsx
+// src/app/page.tsx
+export default function HomePage() {
+  return (
+    <>
+      <Hero />
+      <WhyVanta />
+      <FeaturedPrograms />
+      <FeaturedMemberships />
+      <FeaturedTrainers />
+      <GalleryPreview />
+      <Testimonials />
+      <TrialSection />
+      <ContactSection />
+      <FinalCTA />
+    </>
+  );
+}
+```
+
+### Primary user flow
+
+```
+Land on hero → scan stat strip (credibility)
+  → Programs / Memberships (self-qualify)
+  → Trainers / Testimonials (trust)
+  → Book Free Trial (conversion)
+       ↳ fallbacks everywhere: WhatsApp / Call / Get Directions
 ```
 
 ---
 
-## Design system
+## 9. Design system
 
-VANTA is a **dark-only** brand. All tokens live in `src/app/globals.css` and are mapped to Tailwind utilities through `@theme inline`.
+VANTA is a **dark-only** brand. The dark palette is on `:root` and `color-scheme: dark` is set.
 
-| Token | Value | Use |
+### Color tokens
+
+| Raw token | Value | Semantic use |
 |---|---|---|
-| `--vanta-black` | `#0A0A0A` | Page background |
-| `--vanta-charcoal` | `#171717` | Alternating section background (`.section-alt`) |
-| `--vanta-graphite` | `#262626` | Borders, dividers |
-| `--vanta-lime` | `#C6FF00` | **Accent only**: CTAs, active states, key numbers |
-| `--vanta-white` | `#F5F5F5` | Body and headings |
-| `--vanta-gray` | `#A3A3A3` | Secondary copy |
+| `--vanta-black` | `#0A0A0A` | Page background (`bg-background`) |
+| `--vanta-charcoal` | `#171717` | Alternating sections (`section-alt`), cards |
+| `--surface-raised` | `#1F1F1F` | Cards on charcoal sections (`bg-surface-raised`) |
+| `--vanta-graphite` | `#262626` | Borders, dividers (`border-line`) |
+| `--border-strong` | `#404040` | Emphasised borders (`border-line-strong`) |
+| `--vanta-lime` | `#C6FF00` | **Accent only:** CTAs, active states, key numbers (`text-primary`, `bg-primary`) |
+| `--vanta-lime-hover` | `#D4FF3D` | Primary hover (`bg-primary-hover`) |
+| `--vanta-white` | `#F5F5F5` | Body and headings (`text-foreground`) |
+| `--vanta-gray` | `#A3A3A3` | Secondary copy (`text-muted-foreground`) |
+| `--vanta-danger` | `#FF4D4D` | Errors (`text-destructive`) |
 
-Typography uses a fluid `clamp()` scale (`--text-xs` to `--text-hero`) so it scales smoothly from mobile to desktop. Headings use Space Grotesk, body text uses Inter.
+**Rule:** lime is scarce. If more than a few elements per viewport are lime, something is wrong.
 
-Useful helper classes: `.container-vanta`, `.section-y`, `.section-alt`, `.display`, `.stat-number`, `.press`, `.scroll-x`.
+> Components should use the semantic utilities above. If legacy `vanta-*` utilities remain in Navbar/Footer, the matching `--color-vanta-*` tokens must exist in `@theme inline`, or migrate those classes to the semantic names (preferred).
 
-Utilities such as `bg-primary`, `text-lime`, `border-line`, `bg-surface-raised`, `font-display` and `text-muted-foreground` are available everywhere.
+Required theme additions:
 
----
+```css
+@theme inline {
+  --color-primary-hover: var(--vanta-lime-hover);
+}
+```
 
-## Page sections
+### Typography
 
-Single scrolling page with anchor navigation. This is the standard pattern for a conversion-focused small-business site.
-
-| Anchor | Section | Job |
+| Role | Font | Used for |
 |---|---|---|
-| `#home` | Hero + stats strip | State the promise, show credibility, give the first CTA |
-| `#why` | Why VANTA | Answer "why not my local gym?" |
-| `#programs` | Programs | Let visitors self-qualify (3 featured, link to all) |
-| `#memberships` | Pricing | Three plans, middle one highlighted |
-| `#trainers` | Coaches | Build trust |
-| `#gallery` | Facility mosaic | Show the space |
-| `#testimonials` | Member reviews | Social proof |
-| `#trial` | Free trial form | Primary conversion |
-| `#contact` | Location and hours | Fallback paths: call, WhatsApp, directions |
+| Display | Space Grotesk (`font-display`) | Headings, prices, logo, stat numbers |
+| Body | Inter (`font-sans`) | Paragraphs, labels, form fields |
 
-**Primary user flow:** land on hero, check the stat strip, scroll to programs or memberships, check trainers or testimonials for trust, then book a free trial. WhatsApp, call and directions are available as fallbacks throughout.
+- Fluid scale from `--text-xs` to `--text-4xl`, plus `--text-hero` (`clamp(3.5rem, 1.5rem + 10vw, 9rem)`) for "BUILT DIFFERENT."
+- `.display` class: hero headline (uppercase, tight tracking and leading).
+- `.stat-number`: lime key figures.
+- Fonts are loaded by `next/font` in `layout.tsx`. **The font variable classes must be applied to `<html>`**:
 
----
+```tsx
+<html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
+```
 
-## Content editing (data layer)
+### Layout tokens
 
-No component needs touching to change copy. Edit the typed files in `src/data/`:
+| Token | Value | Notes |
+|---|---|---|
+| `--container-max` | `80rem` | Via `.container-vanta` / `<Container>` |
+| `--container-pad` | fluid | Horizontal gutters |
+| `--section-y` | fluid | Vertical rhythm via `.section-y` |
+| `--nav-height` | `4rem` | Fixed header; offset `<main>` |
+| `--mobile-bar-height` | `4.25rem` | Bottom bar; `body` reserves this space on mobile |
+| `--z-nav / mobile-bar / menu / modal` | 40 / 45 / 50 / 60 | Z-index scale |
 
-- **Add a program:** push an object to `PROGRAMS` in `Programs.ts` (shape: `types/program.ts`).
-- **Change prices or features:** edit `MEMBERSHIPS_BY_ID` in `Memberships.ts`. Each plan has exactly 4 features, which is enforced by the `MembershipFeatures` tuple type.
-- **Swap featured home programs:** edit `FEATURED_PROGRAM_IDS` in `FeaturedPrograms.tsx`.
-- **Phone, email, nav links:** `Site.ts`.
-- **Trial time slots and goals:** `Trial.ts`.
+The fixed header must offset the page, including safe areas:
 
-TypeScript will flag any missing or malformed field at build time.
+```tsx
+<main className="pt-[calc(var(--nav-height)+env(safe-area-inset-top,0px))]">
+```
 
----
+### Responsive approach (mobile-first)
 
-## Motion
-
-Motion is intentionally restrained:
-
-- One **hero load-in** sequence (`HeroReveal`)
-- One **scroll reveal per section** (`ScrollReveal`, plays once)
-- **Hover and press** states only (`HoverLift`, `ButtonPress`, `ImageZoom`)
-- Nothing looping or decorative, apart from the subtle hero glow
-
-`prefers-reduced-motion` is respected in CSS.
-
----
-
-## Development rules
-
-1. **Mobile first.** Write base styles for small screens, then layer on `sm:`, `md:`, `lg:`.
-2. **Accessibility.** Semantic HTML, visible focus ring (lime), labelled inputs, `aria-*` where needed, 44px+ tap targets for primary actions.
-3. **Server components by default.** Add `'use client'` only for interactivity (Navbar menu, motion wrappers, DatePicker).
-4. **Content in `data/`, not JSX.**
-5. **Reuse primitives.** Use `Button`, `Badge`, `Input`, `SectionHeading` and `Container` instead of re-styling.
-6. **Lime is for emphasis.** At most one lime badge per section.
-7. **Use `next/image`** with `sizes` set for every photo.
-8. **Use `cn()`** for conditional classes so Tailwind conflicts resolve correctly.
+- Base styles target ~360px; layer up with `sm:`, `md:`, `lg:`.
+- Grids: 1 column on mobile; 3 columns at `lg`.
+- Gallery mosaic: 2 columns mobile → 4 columns `md+`.
+- Touch targets at least 40px (Button `md` is 40px, `lg` is 48px, inputs are 44px).
+- Wide content scrolls in its own container (`.scroll-x`), never the page.
+- Test at **360, 390, 768, 1024, 1280px**.
 
 ---
 
-## Project process
+## 10. Component reference
 
-How the project was built, in order:
+### UI primitives (`src/components/ui`)
 
-1. **Concept and UI exploration.** A visual prototype was designed first to settle the look and feel (dark, high-contrast, lime accent).
-2. **Blueprint.** A sitemap and section-by-section wireframe were written, covering layout logic, the job of each section, user flow and the design system.
-3. **File structure.** A component and folder architecture was planned so each section maps to a component and each piece of content maps to a data file.
-4. **Foundation.** Next.js, TypeScript, Tailwind v4 and fonts were set up, along with design tokens in `globals.css`, the `cn()` utility and the `Container` layout.
-5. **UI primitives.** `Button`, `Badge`, `Input`, `DatePicker` and `SectionHeading` were built and documented with usage examples.
-6. **Data and types.** Typed content models were created for programs, memberships, trainers, testimonials, gallery and trial options.
-7. **Motion layer.** Reusable animation wrappers were built to enforce the "restrained motion" rule.
-8. **Sections.** Navbar, Footer, Hero, WhyVanta, FeaturedPrograms, FeaturedMemberships, FeaturedTrainers, GalleryPreview and Testimonials were built.
-9. **Next:** trial form, contact section, final CTA, mobile action bar, and assembly of `page.tsx`.
+**`Button`**: `cva` variants merged with `cn()` so caller classes win.
 
----
+| Prop | Values |
+|---|---|
+| `variant` | `primary` (default), `secondary`, `outline`, `ghost` |
+| `size` | `sm` (h-9), `md` (h-10, default), `lg` (h-12) |
+| `asChild` | Render as child element (use with `Link` / `a`) |
 
-## Status and roadmap
+```tsx
+// Always use asChild for links. Never nest <Button> in <Link>.
+<Button asChild size="lg"><Link href="#trial">Book a Free Trial</Link></Button>
+```
 
-**Done**
-- [x] Design tokens, fonts, layout shell
-- [x] Navbar (responsive, mobile menu) and Footer
-- [x] UI primitives (Button, Badge, Input, DatePicker, SectionHeading)
-- [x] Hero, Why VANTA, Programs, Memberships, Trainers, Gallery, Testimonials sections
-- [x] Typed data layer and validation helpers
-- [x] Motion wrappers
+`buttonVariants` is exported to style plain anchors as buttons.
 
-**To do**
-- [ ] Assemble sections in `src/app/page.tsx` (currently a placeholder)
-- [ ] `TrialForm` section (`#trial`): name, phone, email, date, time, goal, with success state
-- [ ] Contact section (`#contact`): address, hours, WhatsApp, map and directions button
-- [ ] Final CTA band (Book Trial + WhatsApp)
-- [ ] Mobile bottom bar (Call / WhatsApp / Book Free Trial). `globals.css` already reserves space for it via `--mobile-bar-height`
-- [ ] Form submission (API route, email or WhatsApp notification)
-- [ ] Real photos, real trainer data and real social links
-- [ ] Optional multi-page routes: `/programs`, `/memberships`, `/trainers`, `/contact`
-- [ ] SEO extras: Open Graph image, `LocalBusiness` JSON-LD, sitemap, robots
-- [ ] Add a LICENSE
+**`Badge`**: variants `lime` (one per section max), `outline`, `muted`; sizes `sm`, `md`.
 
----
+**`Input`**: label, hint and error built in. Sets `aria-invalid` and `aria-describedby`; errors use `role="alert"`. Exports `inputStyles` for custom controls (used by `DatePicker` and `Select`).
 
-## Known issues to fix
+**`DatePicker`**: Radix Popover + `react-day-picker`. Value is `YYYY-MM-DD`. Must render a hidden `<input name=… value=…>` to participate in `<form>` submission. Pass `min` from client state, not from `todayISO()` during render.
 
-Small things spotted while reviewing the code:
+**`Select`**: styled native `<select>` using `inputStyles` (most reliable on mobile).
 
-1. **Nav CTA is a button inside a link.** In `Navbar.tsx`, `<Link><Button/></Link>` renders a `<button>` inside an `<a>`, which is invalid HTML. Use `<Button asChild><Link href="#trial">…</Link></Button>`.
-2. **Nav CTA target.** "Book Free Trial" links to `#contact`, while every other CTA uses `#trial`. Point it to `#trial` for consistency with the blueprint.
-3. **Nav has no "Why" or "Testimonials" link**, which is fine, but make sure `#trial` exists once the form is added or anchors will go nowhere.
-4. **Footer social links** use `href="#"` with `target="_blank"`. Replace them with real URLs, or remove the entries until you have them.
-5. **`featured` flag unused.** `Program.featured` exists, but the home page uses a hardcoded `FEATURED_PROGRAM_IDS` array. Pick one approach.
-6. **Unused hook in plan.** `useScrollReveal.ts` is no longer needed because `motion` handles reveals. The `.reveal` CSS classes can be removed too.
-7. **Nested `ScrollReveal` in `WhyVanta`.** The section wraps everything in one reveal and each reason in another, which goes against the "one reveal per section" rule. Remove the inner wrappers.
-8. **Footer headings** use `h2` inside the footer. Consider `h2` with `sr-only` or a `p`, to keep the page's heading outline clean.
-9. **Testimonials star rating** displays 4 stars for one member. Fine if intentional, but all-5-star data reads more like marketing than proof, so keep it if it is real.
-10. **Placeholder data:** phone number, email, WhatsApp number and years of experience are placeholders.
+**`SectionHeading`**: `title`, `description`, `eyebrow`, `align`, `as`, `action`. Use `as="h1"` once per page; the hero owns the page `h1`.
+
+### Layout (`src/components/layout`)
+
+- **`Navbar`**: fixed, blurred. Desktop: logo, links, phone, CTA. Mobile: logo, compact CTA, hamburger. Menu must be `inert` when closed, close on Escape, and lock body scroll while open.
+- **`Footer`**: brand blurb, socials, three link columns (Explore / Get Started / Contact), legal line. `tel:`, `mailto:` and `wa.me` use `<a>`, not `next/link`. Each `<nav>` has an `aria-label`.
+- **`MobileBar`**: `md:hidden`, fixed bottom, `pb-safe`, three actions.
+- **`Logo`**: single source for the `VANTA.` wordmark.
+- **`Container`**: max-width wrapper.
+
+### Animation wrappers (`src/components/animations`)
+
+| Component | Use |
+|---|---|
+| `MotionProvider` | Wraps the app; `reducedMotion="user"` |
+| `HeroReveal` | Hero load-in; `fade={false}` for the `h1` so LCP isn't hidden |
+| `ScrollReveal` | One per section |
+| `HoverLift` | Card hover lift |
+| `ButtonPress` | Hover/tap scale on CTAs |
+| `ImageZoom` | Hover zoom inside an `overflow-hidden` frame |
 
 ---
 
-## Deployment
+## 11. Content and data layer
 
-The easiest route is [VANTA](https://vanta-xi-olive.vercel.app/):
+All editable content is in `src/data`. Types are in `src/types`.
 
-1. Push the repo to GitHub.
-2. Import the repo in Vercel (framework preset: Next.js).
-3. Deploy. Every push to `main` ships automatically.
+| File | Contents | Constraints |
+|---|---|---|
+| `site.ts` | Name, tagline, phone, email, WhatsApp, address, map URLs, hours, socials, nav, `trialHref` | Single source of truth, no hardcoding in components |
+| `programs.ts` | `Program[]` (id, title, description, tag, CTA) | `featured: true` marks home-page programs (3 recommended) |
+| `memberships.ts` | `MEMBERSHIPS_BY_ID` + `getMembershipsByIds()` | Exactly 3 plans, exactly 4 features each (tuple-typed). Middle plan is "Most Popular" |
+| `trainers.ts` | `Trainer[]` | Photo, years, specialty, bio |
+| `testimonials.ts` | `Testimonial[]` | Rating 1–5, name, member-since year |
+| `gallery.ts` | `GalleryImage[]` | **Exactly 6 items**; order maps to mosaic slots (first = largest) |
+| `trial.ts` | `TRAINING_GOALS`, `TIME_SLOTS` | Time slots must match real opening hours |
 
-Before launch, check: real images, real contact details, working trial form, Open Graph image, Lighthouse score on mobile.
+### Recommended `SITE` shape
+
+```ts
+export const SITE = {
+  name: 'VANTA',
+  tagline: 'Built Different.',
+  url: 'https://vanta-xi-olive.vercel.app/',
+  trialHref: '#trial',
+  contact: {
+    phone: '+94 77 123 4567',          // replace placeholder
+    phoneHref: 'tel:+94771234567',
+    email: 'hello@vanta.fit',
+    whatsappHref: 'https://wa.me/94771234567',
+    address: ['Street address', 'Colombo 03', 'Sri Lanka'],
+    mapsUrl: 'https://maps.google.com/?q=…',
+    mapEmbedSrc: 'https://www.google.com/maps/embed?pb=…',
+  },
+  hours: [
+    { days: 'Mon – Fri', time: '5:30 AM – 10:00 PM' },
+    { days: 'Saturday', time: '6:00 AM – 8:00 PM' },
+    { days: 'Sunday', time: '7:00 AM – 2:00 PM' },
+  ],
+  socials: { instagram: '', tiktok: '', facebook: '' },
+  navigation: [
+    { label: 'Programs', href: '#programs' },
+    { label: 'Memberships', href: '#memberships' },
+    { label: 'Trainers', href: '#trainers' },
+    { label: 'Gallery', href: '#gallery' },
+    { label: 'Contact', href: '#contact' },
+  ],
+} as const;
+```
+
+### Adding content
+
+- **New program:** add an object to `PROGRAMS`; set `featured: true` to show it on the home page. The hero stat should derive from data: `String(PROGRAMS.length)`.
+- **New trainer:** drop the photo in `src/images/trainers/`, import it, add to `TRAINERS`.
+- **Gallery:** replace the six images, keep the six zones (Strength Zone, Free Weight Floor, Functional Rig, Recovery Room, PT Studio, Community Sessions).
+- **Prices:** `price` is a monthly LKR number; the UI formats it.
 
 ---
 
-## License
--------
+## 12. Trial booking form
+
+Located in `TrialSection` (`#trial`). Two columns on desktop: reassurance copy plus 3 bullets on the left, form on the right. Stacked on mobile with the form first or second per design review.
+
+### Fields
+
+| Field | Control | Validation |
+|---|---|---|
+| Full name | `Input` | `isNotEmpty` |
+| Phone | `Input type="tel"` | `isPhone` |
+| Email | `Input type="email"` | `isEmail` |
+| Date | `DatePicker` (+ hidden input) | `isTodayOrFuture` |
+| Time | `Select` (from `TIME_SLOTS`) | required |
+| Goal | `Select` (from `TRAINING_GOALS`) | required |
+| `website` | Hidden honeypot | Must be empty |
+
+### Behaviour
+
+1. Validate on blur and on submit; focus the first invalid field.
+2. Compute `today` in an effect to avoid hydration mismatch:
+   ```tsx
+   const [today, setToday] = useState('');
+   useEffect(() => setToday(todayISO()), []);
+   ```
+3. Submit to the server action `app/actions/trial.ts`, which **re-validates on the server**, checks the honeypot (silently succeeds if filled) and delivers the lead.
+4. States: `idle → submitting` (button disabled, "Booking…") `→ success` (replaces the form, `role="status"`, "You're booked, we'll call to confirm") `→ error` (message + WhatsApp fallback).
+5. Add rate limiting (IP-based) before launch.
 
 ---
 
-<sub>Built for VANTA, Colombo 03. Strength. Discipline. Transformation.</sub>
+## 13. Motion rules
+
+Motion is intentionally limited:
+
+- **One** hero load-in sequence
+- **One** scroll reveal per section (not per card, and no nested reveals)
+- Hover and press states
+- **Nothing looping or decorative**
+
+Implementation rules:
+
+- Wrap the app in `MotionProvider` (`reducedMotion="user"`). The CSS `prefers-reduced-motion` query does **not** affect `motion/react`.
+- Animate only `opacity` and `transform` (`y`, `scale`). No animated blur.
+- Never start the hero `h1` at `opacity: 0` (it delays LCP).
+- Use `viewport={{ once: true, amount: 'some' }}` for tall wrappers; `amount: 0.2` can fail to trigger on short screens.
+- Decorative glows are static. If you ever animate one, animate only its own child element, behind `motion-safe:`.
+- Lists keep valid markup: `ul > li > (motion wrapper)`, never `ul > div`.
+
+---
+
+## 14. Accessibility
+
+Target: **WCAG 2.1 AA**.
+
+- Semantic landmarks: one `header`, `main`, `footer`; labelled `nav`s (main + three footer columns).
+- One `h1` (hero); `h2` per section; `h3` for cards.
+- Add a **skip-to-content** link as the first focusable element.
+- Visible focus: global `:focus-visible` lime outline.
+- Forms: visible labels, `aria-invalid`, `aria-describedby`, errors announced with `role="alert"`, success with `role="status"`.
+- Mobile menu: `aria-expanded`, `aria-controls`, `inert` when closed, Escape to close.
+- Decorative SVGs/icons: `aria-hidden="true"`. Informative ones get a label (e.g. star ratings use `role="img"` + `aria-label`).
+- Images: meaningful `alt` in data files; decorative overlays `aria-hidden`.
+- Color: lime on black passes contrast. Verify `muted-foreground` (`#A3A3A3`) on `#171717` for small text.
+- Don't nest interactive elements (no `<Button>` inside `<Link>`).
+- External links with `target="_blank"` include `rel="noopener noreferrer"`.
+- Reduced motion respected via `MotionProvider`.
+
+---
+
+## 15. SEO and structured data
+
+- `metadata` in `layout.tsx`: `metadataBase`, title template, description, Open Graph (`locale: en_LK`, 1200×630 image), Twitter `summary_large_image`.
+- **`HealthClub` JSON-LD** built from `SITE` (name, phone, email, address, opening hours, URL), rendered once in `page.tsx`.
+- `app/sitemap.ts` and `app/robots.ts`.
+- Heading hierarchy as in [section 14](#14-accessibility).
+- Page title: *VANTA | Performance Gym in Colombo 03*.
+- Use real URLs in social links; don't ship `href="#"`.
+
+---
+
+## 16. Performance
+
+- Fonts via `next/font` (no layout shift, self-hosted).
+- Use `next/image` with static imports; add `priority` to above-the-fold images only; keep accurate `sizes` (see `GalleryPreview`).
+- Keep the hero `h1` visible from first paint.
+- Avoid heavy GPU effects (animated blur, infinite opacity loops).
+- Lazy-load the map iframe (`loading="lazy"`).
+- Keep client components small; sections stay server-rendered.
+- Targets (mobile): Lighthouse Performance ≥ 90, LCP < 2.5s, CLS < 0.1, INP < 200ms.
+
+---
+
+## 17. Coding conventions
+
+- **TypeScript strict.** No `any`. Data shapes live in `src/types`.
+- **Mobile-first Tailwind.** Unprefixed = mobile; add breakpoints upward.
+- **Use `cn()`** for any conditional or merged class names.
+- **Use `asChild`** for link-styled buttons.
+- **Semantic tokens only** in components (no raw hex, no ad-hoc `vanta-*`).
+- **Imports:** use the `@/` alias everywhere (no `../` across folders).
+- **Exports:** named exports for components; `default` only for Next.js pages/layouts. *(Currently mixed, normalise when convenient.)*
+- **One reveal per section.**
+- **No content in components.** Move copy, numbers and URLs to `src/data`.
+- **Commits:** Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`).
+- **Branches:** `main` (deployable), `feat/*`, `fix/*`.
+
+---
+
+## 18. QA checklist
+
+### Automated
+
+- [ ] `npm run lint` passes
+- [ ] `npx tsc --noEmit` passes
+- [ ] `npm run build` passes (also on Linux, to catch casing errors)
+- [ ] Playwright + axe at 360, 768, 1280px: no serious/critical violations
+- [ ] Lighthouse mobile ≥ 90 (Performance, Accessibility, SEO, Best Practices)
+
+### Visual and responsive
+
+- [ ] Fonts render as Space Grotesk / Inter (not system fallback)
+- [ ] Fixed header doesn't cover the hero; correct on notched devices
+- [ ] No horizontal scroll at 320px
+- [ ] Bottom bar visible on mobile only; no empty strip beneath the footer
+- [ ] Hero fills the viewport correctly (`100svh` minus header)
+- [ ] Gallery mosaic matches the layout diagram at both breakpoints
+- [ ] Middle membership card is emphasised; cards align in height
+- [ ] Hover states work (primary button, links, cards); `bg-primary-hover` resolves
+
+### Functional
+
+- [ ] Every "Book Free Trial" / "Start this program" / "Train with …" CTA scrolls to `#trial`
+- [ ] Nav anchors land below the sticky header
+- [ ] Mobile menu opens/closes; Escape closes; closed menu not tabbable
+- [ ] Trial form: required, invalid and success paths; honeypot; server re-validation
+- [ ] DatePicker blocks past dates, submits with the form, fits at 320px
+- [ ] `tel:`, `mailto:`, WhatsApp and Directions links open correctly
+- [ ] "Explore all programs" doesn't link to a missing route (hide it or build `/programs`)
+
+### Accessibility
+
+- [ ] Full keyboard pass (tab order logical, focus visible)
+- [ ] Screen reader pass on nav, form, menu
+- [ ] Reduced-motion on: no transform animations
+- [ ] Skip link works
+
+### Content
+
+- [ ] See [section 20](#20-pre-launch-content-checklist)
+
+---
+
+## 19. Known issues and fix backlog
+
+Findings from the QA review, in recommended fix order.
+
+### 🔴 Blockers
+
+1. **Fonts not applied.** Add `${spaceGrotesk.variable} ${inter.variable}` to `<html>`; add `pt-[var(--nav-height)]` to `<main>`.
+2. **`vanta-*` utilities undefined** (Navbar, Footer). Add `--color-vanta-*` to `@theme inline`, or (preferred) migrate to semantic utilities.
+3. **`hover:bg-primary-hover` undefined.** Add `--color-primary-hover: var(--vanta-lime-hover)`.
+4. **Button doesn't merge classes.** Rebuild with `cva` + `cn()`.
+5. **Wrong/missing CTA targets and sections.** Navbar CTA uses `#contact` (should be `#trial`); `page.tsx` is a placeholder; trial form, contact, final CTA and mobile bar don't exist; `/programs` 404s.
+6. **`.hero-glow` pulses the entire hero** and loops. Move the glow to a static child element.
+
+### 🟠 Major
+
+- Button nested inside `Link` (Navbar ×3). Use `asChild`.
+- `WhyVanta` list markup invalid (`ul > div`); nested reveals.
+- Per-card reveals contradict the one-reveal-per-section rule (WhyVanta, Memberships, Trainers).
+- Closed mobile menu still focusable; no Escape handling.
+- Hamburger X misaligned: translate by 7px, not 4px.
+- Header ignores safe-area insets.
+- Motion ignores reduced-motion: add `MotionProvider`.
+- `HeroReveal` hides the `h1` and uses blur, which hurts LCP.
+- Anchors only work on `/`; use `/#section` once sub-pages exist.
+- Blueprint (single page) vs file structure (multi-page) disagree. Pick one.
+
+### 🟡 Minor
+
+- Hero says "6 core programs" but data has 7: derive from `PROGRAMS.length`.
+- `featured` flag unused: filter by it instead of hardcoded IDs.
+- `todayISO()` during render causes hydration mismatch.
+- DatePicker lacks a hidden input; won't submit natively.
+- Footer: `href="#"` + `target="_blank"`; special links via `next/link`; unlabeled `<nav>`s.
+- `CheckIcon` (FeaturedMemberships) missing `aria-hidden`.
+- Dead CSS: `.reveal`, `.hero-enter`, `.hero-glow`; unused `useScrollReveal` hook; inconsistent `.press` vs `ButtonPress`.
+- Logo inconsistent (`VANTA` vs `VANTA.`).
+- Relative import in Navbar (`../animations/ButtonPress`).
+- Image comments reference `/public/images/…` but code imports `@/images/…`.
+- `@theme inline` self-references `--text-*`; rename `:root` vars to `--fs-*`.
+- Copy punctuation (see below).
+
+### Safe file-case rename (macOS/Windows)
+
+```bash
+git mv src/components/ui/Sectionheading.tsx src/components/ui/tmp.tsx
+git mv src/components/ui/tmp.tsx src/components/ui/SectionHeading.tsx
+git config core.ignorecase false
+```
+
+Repeat for `Gallerypreview → GalleryPreview`, `Datepicker → DatePicker`, `Site → site` (and other data files), then update imports.
+
+### Copy punctuation fixes
+
+| Where | Fix |
+|---|---|
+| Hero | "built for output**,** not a place to just show up" |
+| WhyVanta | "in real time**,** not just checking you in" |
+| WhyVanta | "intent**, and** that standard is contagious" |
+| WhyVanta | "entry**-**level basics" |
+| Trainers | "national**-**level powerlifter"; "train pain**-**free" |
+
+---
+
+## 20. Pre-launch content checklist
+
+Placeholders and claims **must** be verified or replaced before going live. Inaccurate marketing claims can create legal exposure.
+
+- [ ] Phone number (`+94 77 123 4567` looks like a placeholder)
+- [ ] Real street address, map embed URL, directions link
+- [ ] Real opening hours (and align `TIME_SLOTS`)
+- [ ] Stats: "500+ members", "12 certified coaches", "3,200 sq ft", program count
+- [ ] Trainer bios, years of experience, and credentials (e.g. "former national-level powerlifter")
+- [ ] Headline "Trained by people who compete themselves": true for every coach?
+- [ ] Testimonials: real members, written permission, accurate results ("lost 9kg in four months")
+- [ ] Trainer, member and gallery photos are real (no stock/AI placeholders)
+- [ ] Membership prices, commitment terms, features and "free onboarding session"
+- [ ] Social profile URLs
+- [ ] Legal pages / privacy note for form data collection
+- [ ] OG image (`public/og.jpg`)
+
+---
+
+## 21. Deployment
+
+Recommended: **Vercel**.
+
+1. Push to GitHub; import the repo in Vercel.
+2. Set environment variables (section 5) for Production and Preview.
+3. Set the production domain; update `metadataBase` and `NEXT_PUBLIC_SITE_URL`.
+4. Verify the build passes on Linux (case-sensitive filesystem).
+5. After deploy: submit `sitemap.xml` to Google Search Console, test the share preview, run Lighthouse on the live URL, and submit a real trial booking end to end.
+
+---
+
+## 22. Roadmap
+
+**Now (launch):** Batches 1–4 from the QA plan:
+1. Fix blockers: fonts, tokens, Button, CTA targets
+2. Build `page.tsx`, trial form, contact, final CTA, mobile bar
+3. Accessibility and polish: nav, motion, hero, footer, list semantics
+4. Cleanup, SEO and real content
+
+**Later:**
+- Dedicated `/programs`, `/memberships`, `/trainers` pages (convert anchors to `/#section` and reuse the `Featured*` components)
+- `TrainerProfile` pages at `/trainers/[id]`
+- Membership FAQ
+- Analytics and conversion tracking (trial form submits, WhatsApp clicks, call taps)
+- Active-section highlighting in the Navbar
+- Playwright + axe in CI
+
+---
+
+## Open decisions
+
+| # | Question | Recommendation |
+|---|---|---|
+| 1 | Single page or multi-page? | Single page for launch |
+| 2 | Where do trial leads go? | Email via Resend |
+| 3 | 6 or 7 programs? | Derive the stat from data; trim to 6 if the brand promise is "6 core programs" |
+| 4 | Full-screen mobile menu or dropdown? | Full-screen, per the blueprint |
+
+---
+
+© 2026 VANTA. All rights reserved.
