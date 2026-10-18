@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 import { Navbar } from '@/components/layout/Navbar';
+import MotionProvider from '@/components/animations/MotionProvider';
 
 import './globals.css';
 import { Footer } from '@/components/layout/Footer';
@@ -41,9 +42,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body>
-        <Navbar />
-        <main className="pt-[var(--nav-height)]">{children}</main>
-        <Footer />
+        <MotionProvider>
+          <Navbar />
+          <main className="pt-[var(--nav-height)]">{children}</main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );
