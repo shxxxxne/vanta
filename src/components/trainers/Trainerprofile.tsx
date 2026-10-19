@@ -42,10 +42,7 @@ export default function TrainerProfile({
   const headingId = `trainer-${trainer.id}-name`;
 
   return (
-    <section
-      aria-labelledby={headingId}
-      className={cn('section-y', className)}
-    >
+    <section aria-labelledby={headingId} className={cn('section-y', className)}>
       <Container>
         <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-16">
           {/* Photo */}
@@ -110,7 +107,10 @@ export default function TrainerProfile({
                 </h3>
                 <ul className="mt-4 flex flex-col gap-3.5">
                   {highlights.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm sm:text-base">
+                    <li
+                      key={item}
+                      className="flex items-start gap-3 text-sm sm:text-base"
+                    >
                       <CheckIcon />
                       <span className="text-foreground">{item}</span>
                     </li>

@@ -16,12 +16,16 @@ const FEATURED_PROGRAM_IDS = [
 ];
 
 const featuredPrograms = FEATURED_PROGRAM_IDS.map((id) =>
-  PROGRAMS.find((program) => program.id === id)
+  PROGRAMS.find((program) => program.id === id),
 ).filter((program) => program !== undefined);
 
 export default function FeaturedPrograms() {
   return (
-    <section id="programs" className="section-y" aria-labelledby="programs-title">
+    <section
+      id="programs"
+      className="section-y"
+      aria-labelledby="programs-title"
+    >
       <Container>
         {/* One reveal for the whole section (blueprint: per section, not per card) */}
         <ScrollReveal className="flex flex-col gap-10 md:gap-14">
@@ -65,7 +69,12 @@ export default function FeaturedPrograms() {
           {/* Explore all */}
           <div className="flex justify-center">
             <ButtonPress className="w-full sm:w-auto">
-              <Button asChild variant="secondary" size="lg" className="w-full sm:w-auto">
+              <Button
+                asChild
+                variant="secondary"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
                 <Link href="/programs">Explore all programs</Link>
               </Button>
             </ButtonPress>

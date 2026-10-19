@@ -71,7 +71,10 @@ function getStatus({ day, minutes }: { day: number; minutes: number }) {
       return { isOpen: true, text: `Closes at ${formatTime(today.close)}` };
     }
     if (minutes < open) {
-      return { isOpen: false, text: `Opens today at ${formatTime(today.open)}` };
+      return {
+        isOpen: false,
+        text: `Opens today at ${formatTime(today.open)}`,
+      };
     }
   }
 
@@ -101,7 +104,8 @@ export default function OpeningHours({ className }: OpeningHoursProps) {
     getSnapshot,
     getServerSnapshot,
   );
-  const now = minuteKey === null ? null : getColomboNow(new Date(minuteKey * 60_000));
+  const now =
+    minuteKey === null ? null : getColomboNow(new Date(minuteKey * 60_000));
   const status = now ? getStatus(now) : null;
 
   return (
@@ -124,10 +128,7 @@ export default function OpeningHours({ className }: OpeningHoursProps) {
         )}
       </div>
 
-      <p
-        role="status"
-        className="mt-2 min-h-5 text-sm text-muted-foreground"
-      >
+      <p role="status" className="mt-2 min-h-5 text-sm text-muted-foreground">
         {status?.text}
       </p>
 
@@ -151,9 +152,7 @@ export default function OpeningHours({ className }: OpeningHoursProps) {
                 {isToday && (
                   <Badge variant="outline">
                     Today
-                    <span className="sr-only">
-                      , {DAY_NAMES[now!.day]}
-                    </span>
+                    <span className="sr-only">, {DAY_NAMES[now!.day]}</span>
                   </Badge>
                 )}
               </dt>

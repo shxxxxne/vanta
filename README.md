@@ -35,32 +35,32 @@ Built with **Next.js (App Router)**, **TypeScript**, **Tailwind CSS v4**, **shad
 
 ## 1. Tech stack
 
-| Area | Choice | Notes |
-|---|---|---|
-| Framework | Next.js (App Router) | Server Components by default; `'use client'` only where needed |
-| Language | TypeScript (strict) | Typed data files (`src/types`) |
-| Styling | Tailwind CSS **v4.1+** | Tokens via `@theme inline` in `globals.css`. `bg-radial-[...]` needs 4.1+ |
-| UI primitives | shadcn/ui pattern | `class-variance-authority`, `clsx` + `tailwind-merge` (`cn`), `@radix-ui/react-slot`, `@radix-ui/react-popover` |
-| Fonts | `next/font/google` | Space Grotesk (display), Inter (body). Self-hosted at build time |
-| Animation | `motion` (`motion/react`) | Limited, rules in [section 13](#13-motion-rules) |
-| Icons | `lucide-react` + inline SVG | Decorative icons are `aria-hidden` |
-| Date picker | `react-day-picker` + Radix Popover | Branded, no native blue |
-| Linting | ESLint (`eslint.config.mjs`) | Plus `tsc --noEmit` |
+| Area          | Choice                             | Notes                                                                                                           |
+| ------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Framework     | Next.js (App Router)               | Server Components by default; `'use client'` only where needed                                                  |
+| Language      | TypeScript (strict)                | Typed data files (`src/types`)                                                                                  |
+| Styling       | Tailwind CSS **v4.1+**             | Tokens via `@theme inline` in `globals.css`. `bg-radial-[...]` needs 4.1+                                       |
+| UI primitives | shadcn/ui pattern                  | `class-variance-authority`, `clsx` + `tailwind-merge` (`cn`), `@radix-ui/react-slot`, `@radix-ui/react-popover` |
+| Fonts         | `next/font/google`                 | Space Grotesk (display), Inter (body). Self-hosted at build time                                                |
+| Animation     | `motion` (`motion/react`)          | Limited, rules in [section 13](#13-motion-rules)                                                                |
+| Icons         | `lucide-react` + inline SVG        | Decorative icons are `aria-hidden`                                                                              |
+| Date picker   | `react-day-picker` + Radix Popover | Branded, no native blue                                                                                         |
+| Linting       | ESLint (`eslint.config.mjs`)       | Plus `tsc --noEmit`                                                                                             |
 
 ---
 
 ## 2. Project status
 
-| Area | State |
-|---|---|
-| Design tokens, layout, Button/Badge/Input/DatePicker/SectionHeading | Done (with fixes pending, see [section 19](#19-known-issues-and-fix-backlog)) |
-| Home sections: Hero, WhyVanta, Programs, Memberships, Trainers, Gallery, Testimonials | Built |
-| `page.tsx` composition | **Pending** (placeholder) |
-| Trial form (`#trial`) | **Pending** |
-| Contact section (`#contact`) and Final CTA | **Pending** |
-| Mobile bottom bar (Call / WhatsApp / Trial) | **Pending** |
-| SEO metadata, JSON-LD, sitemap, robots | **Pending** |
-| Real content (address, hours, photos, testimonials) | **Pending**, placeholders in use |
+| Area                                                                                  | State                                                                         |
+| ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Design tokens, layout, Button/Badge/Input/DatePicker/SectionHeading                   | Done (with fixes pending, see [section 19](#19-known-issues-and-fix-backlog)) |
+| Home sections: Hero, WhyVanta, Programs, Memberships, Trainers, Gallery, Testimonials | Built                                                                         |
+| `page.tsx` composition                                                                | **Pending** (placeholder)                                                     |
+| Trial form (`#trial`)                                                                 | **Pending**                                                                   |
+| Contact section (`#contact`) and Final CTA                                            | **Pending**                                                                   |
+| Mobile bottom bar (Call / WhatsApp / Trial)                                           | **Pending**                                                                   |
+| SEO metadata, JSON-LD, sitemap, robots                                                | **Pending**                                                                   |
+| Real content (address, hours, photos, testimonials)                                   | **Pending**, placeholders in use                                              |
 
 > **Architecture decision (recommended, confirm before building):** ship as a **single scrolling page with anchor navigation**, as the blueprint specifies. The `/programs`, `/memberships`, `/trainers` and `/contact` routes from the original file tree are deferred (see [Roadmap](#22-roadmap)).
 
@@ -101,13 +101,13 @@ Keep the VANTA tokens in `globals.css`. Do not let the CLI overwrite them. Revie
 
 ## 4. Scripts
 
-| Command | Purpose |
-|---|---|
-| `npm run dev` | Start dev server |
-| `npm run build` | Production build |
-| `npm run start` | Serve the production build |
-| `npm run lint` | ESLint |
-| `npx tsc --noEmit` | Type check |
+| Command            | Purpose                    |
+| ------------------ | -------------------------- |
+| `npm run dev`      | Start dev server           |
+| `npm run build`    | Production build           |
+| `npm run start`    | Serve the production build |
+| `npm run lint`     | ESLint                     |
+| `npx tsc --noEmit` | Type check                 |
 
 Recommended pre-commit / CI gate: `lint` + `tsc --noEmit` + `build`.
 
@@ -237,18 +237,18 @@ vanta/
 
 Order in `src/app/page.tsx` (background alternates to create rhythm):
 
-| # | Section | Anchor | Background | Purpose |
-|---|---|---|---|---|
-| 1 | Hero | `#home` | page | Promise, location credibility, primary CTA, stat strip |
-| 2 | WhyVanta | `#why` | alt | "Why is this better than my local gym?" |
-| 3 | FeaturedPrograms | `#programs` | page | Three featured programs, self-qualify |
-| 4 | FeaturedMemberships | `#memberships` | alt | Three plans, middle emphasised |
-| 5 | FeaturedTrainers | `#trainers` | page | Trust through coaches |
-| 6 | GalleryPreview | `#gallery` | alt | Six-zone asymmetric mosaic |
-| 7 | Testimonials | `#testimonials` | page | Social proof |
-| 8 | TrialSection | `#trial` | alt | **Primary conversion** |
-| 9 | ContactSection | `#contact` | page | Address, hours, map, directions |
-| 10 | FinalCTA | n/a | alt / glow | Catch scroll-to-bottom visitors |
+| #   | Section             | Anchor          | Background | Purpose                                                |
+| --- | ------------------- | --------------- | ---------- | ------------------------------------------------------ |
+| 1   | Hero                | `#home`         | page       | Promise, location credibility, primary CTA, stat strip |
+| 2   | WhyVanta            | `#why`          | alt        | "Why is this better than my local gym?"                |
+| 3   | FeaturedPrograms    | `#programs`     | page       | Three featured programs, self-qualify                  |
+| 4   | FeaturedMemberships | `#memberships`  | alt        | Three plans, middle emphasised                         |
+| 5   | FeaturedTrainers    | `#trainers`     | page       | Trust through coaches                                  |
+| 6   | GalleryPreview      | `#gallery`      | alt        | Six-zone asymmetric mosaic                             |
+| 7   | Testimonials        | `#testimonials` | page       | Social proof                                           |
+| 8   | TrialSection        | `#trial`        | alt        | **Primary conversion**                                 |
+| 9   | ContactSection      | `#contact`      | page       | Address, hours, map, directions                        |
+| 10  | FinalCTA            | n/a             | alt / glow | Catch scroll-to-bottom visitors                        |
 
 Persistent elements: sticky **Navbar**, **Footer**, and the **mobile bottom bar** (Call / WhatsApp / Book Free Trial), which replaces any desktop floating WhatsApp bubble.
 
@@ -290,18 +290,18 @@ VANTA is a **dark-only** brand. The dark palette is on `:root` and `color-scheme
 
 ### Color tokens
 
-| Raw token | Value | Semantic use |
-|---|---|---|
-| `--vanta-black` | `#0A0A0A` | Page background (`bg-background`) |
-| `--vanta-charcoal` | `#171717` | Alternating sections (`section-alt`), cards |
-| `--surface-raised` | `#1F1F1F` | Cards on charcoal sections (`bg-surface-raised`) |
-| `--vanta-graphite` | `#262626` | Borders, dividers (`border-line`) |
-| `--border-strong` | `#404040` | Emphasised borders (`border-line-strong`) |
-| `--vanta-lime` | `#C6FF00` | **Accent only:** CTAs, active states, key numbers (`text-primary`, `bg-primary`) |
-| `--vanta-lime-hover` | `#D4FF3D` | Primary hover (`bg-primary-hover`) |
-| `--vanta-white` | `#F5F5F5` | Body and headings (`text-foreground`) |
-| `--vanta-gray` | `#A3A3A3` | Secondary copy (`text-muted-foreground`) |
-| `--vanta-danger` | `#FF4D4D` | Errors (`text-destructive`) |
+| Raw token            | Value     | Semantic use                                                                     |
+| -------------------- | --------- | -------------------------------------------------------------------------------- |
+| `--vanta-black`      | `#0A0A0A` | Page background (`bg-background`)                                                |
+| `--vanta-charcoal`   | `#171717` | Alternating sections (`section-alt`), cards                                      |
+| `--surface-raised`   | `#1F1F1F` | Cards on charcoal sections (`bg-surface-raised`)                                 |
+| `--vanta-graphite`   | `#262626` | Borders, dividers (`border-line`)                                                |
+| `--border-strong`    | `#404040` | Emphasised borders (`border-line-strong`)                                        |
+| `--vanta-lime`       | `#C6FF00` | **Accent only:** CTAs, active states, key numbers (`text-primary`, `bg-primary`) |
+| `--vanta-lime-hover` | `#D4FF3D` | Primary hover (`bg-primary-hover`)                                               |
+| `--vanta-white`      | `#F5F5F5` | Body and headings (`text-foreground`)                                            |
+| `--vanta-gray`       | `#A3A3A3` | Secondary copy (`text-muted-foreground`)                                         |
+| `--vanta-danger`     | `#FF4D4D` | Errors (`text-destructive`)                                                      |
 
 **Rule:** lime is scarce. If more than a few elements per viewport are lime, something is wrong.
 
@@ -317,10 +317,10 @@ Required theme additions:
 
 ### Typography
 
-| Role | Font | Used for |
-|---|---|---|
+| Role    | Font                           | Used for                             |
+| ------- | ------------------------------ | ------------------------------------ |
 | Display | Space Grotesk (`font-display`) | Headings, prices, logo, stat numbers |
-| Body | Inter (`font-sans`) | Paragraphs, labels, form fields |
+| Body    | Inter (`font-sans`)            | Paragraphs, labels, form fields      |
 
 - Fluid scale from `--text-xs` to `--text-4xl`, plus `--text-hero` (`clamp(3.5rem, 1.5rem + 10vw, 9rem)`) for "BUILT DIFFERENT."
 - `.display` class: hero headline (uppercase, tight tracking and leading).
@@ -333,14 +333,14 @@ Required theme additions:
 
 ### Layout tokens
 
-| Token | Value | Notes |
-|---|---|---|
-| `--container-max` | `80rem` | Via `.container-vanta` / `<Container>` |
-| `--container-pad` | fluid | Horizontal gutters |
-| `--section-y` | fluid | Vertical rhythm via `.section-y` |
-| `--nav-height` | `4rem` | Fixed header; offset `<main>` |
-| `--mobile-bar-height` | `4.25rem` | Bottom bar; `body` reserves this space on mobile |
-| `--z-nav / mobile-bar / menu / modal` | 40 / 45 / 50 / 60 | Z-index scale |
+| Token                                 | Value             | Notes                                            |
+| ------------------------------------- | ----------------- | ------------------------------------------------ |
+| `--container-max`                     | `80rem`           | Via `.container-vanta` / `<Container>`           |
+| `--container-pad`                     | fluid             | Horizontal gutters                               |
+| `--section-y`                         | fluid             | Vertical rhythm via `.section-y`                 |
+| `--nav-height`                        | `4rem`            | Fixed header; offset `<main>`                    |
+| `--mobile-bar-height`                 | `4.25rem`         | Bottom bar; `body` reserves this space on mobile |
+| `--z-nav / mobile-bar / menu / modal` | 40 / 45 / 50 / 60 | Z-index scale                                    |
 
 The fixed header must offset the page, including safe areas:
 
@@ -365,15 +365,17 @@ The fixed header must offset the page, including safe areas:
 
 **`Button`**: `cva` variants merged with `cn()` so caller classes win.
 
-| Prop | Values |
-|---|---|
+| Prop      | Values                                               |
+| --------- | ---------------------------------------------------- |
 | `variant` | `primary` (default), `secondary`, `outline`, `ghost` |
-| `size` | `sm` (h-9), `md` (h-10, default), `lg` (h-12) |
-| `asChild` | Render as child element (use with `Link` / `a`) |
+| `size`    | `sm` (h-9), `md` (h-10, default), `lg` (h-12)        |
+| `asChild` | Render as child element (use with `Link` / `a`)      |
 
 ```tsx
 // Always use asChild for links. Never nest <Button> in <Link>.
-<Button asChild size="lg"><Link href="#trial">Book a Free Trial</Link></Button>
+<Button asChild size="lg">
+  <Link href="#trial">Book a Free Trial</Link>
+</Button>
 ```
 
 `buttonVariants` is exported to style plain anchors as buttons.
@@ -398,14 +400,14 @@ The fixed header must offset the page, including safe areas:
 
 ### Animation wrappers (`src/components/animations`)
 
-| Component | Use |
-|---|---|
-| `MotionProvider` | Wraps the app; `reducedMotion="user"` |
-| `HeroReveal` | Hero load-in; `fade={false}` for the `h1` so LCP isn't hidden |
-| `ScrollReveal` | One per section |
-| `HoverLift` | Card hover lift |
-| `ButtonPress` | Hover/tap scale on CTAs |
-| `ImageZoom` | Hover zoom inside an `overflow-hidden` frame |
+| Component        | Use                                                           |
+| ---------------- | ------------------------------------------------------------- |
+| `MotionProvider` | Wraps the app; `reducedMotion="user"`                         |
+| `HeroReveal`     | Hero load-in; `fade={false}` for the `h1` so LCP isn't hidden |
+| `ScrollReveal`   | One per section                                               |
+| `HoverLift`      | Card hover lift                                               |
+| `ButtonPress`    | Hover/tap scale on CTAs                                       |
+| `ImageZoom`      | Hover zoom inside an `overflow-hidden` frame                  |
 
 ---
 
@@ -413,15 +415,15 @@ The fixed header must offset the page, including safe areas:
 
 All editable content is in `src/data`. Types are in `src/types`.
 
-| File | Contents | Constraints |
-|---|---|---|
-| `site.ts` | Name, tagline, phone, email, WhatsApp, address, map URLs, hours, socials, nav, `trialHref` | Single source of truth, no hardcoding in components |
-| `programs.ts` | `Program[]` (id, title, description, tag, CTA) | `featured: true` marks home-page programs (3 recommended) |
-| `memberships.ts` | `MEMBERSHIPS_BY_ID` + `getMembershipsByIds()` | Exactly 3 plans, exactly 4 features each (tuple-typed). Middle plan is "Most Popular" |
-| `trainers.ts` | `Trainer[]` | Photo, years, specialty, bio |
-| `testimonials.ts` | `Testimonial[]` | Rating 1–5, name, member-since year |
-| `gallery.ts` | `GalleryImage[]` | **Exactly 6 items**; order maps to mosaic slots (first = largest) |
-| `trial.ts` | `TRAINING_GOALS`, `TIME_SLOTS` | Time slots must match real opening hours |
+| File              | Contents                                                                                   | Constraints                                                                           |
+| ----------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| `site.ts`         | Name, tagline, phone, email, WhatsApp, address, map URLs, hours, socials, nav, `trialHref` | Single source of truth, no hardcoding in components                                   |
+| `programs.ts`     | `Program[]` (id, title, description, tag, CTA)                                             | `featured: true` marks home-page programs (3 recommended)                             |
+| `memberships.ts`  | `MEMBERSHIPS_BY_ID` + `getMembershipsByIds()`                                              | Exactly 3 plans, exactly 4 features each (tuple-typed). Middle plan is "Most Popular" |
+| `trainers.ts`     | `Trainer[]`                                                                                | Photo, years, specialty, bio                                                          |
+| `testimonials.ts` | `Testimonial[]`                                                                            | Rating 1–5, name, member-since year                                                   |
+| `gallery.ts`      | `GalleryImage[]`                                                                           | **Exactly 6 items**; order maps to mosaic slots (first = largest)                     |
+| `trial.ts`        | `TRAINING_GOALS`, `TIME_SLOTS`                                                             | Time slots must match real opening hours                                              |
 
 ### Recommended `SITE` shape
 
@@ -432,7 +434,7 @@ export const SITE = {
   url: 'https://vanta-xi-olive.vercel.app/',
   trialHref: '#trial',
   contact: {
-    phone: '+94 77 123 4567',          // replace placeholder
+    phone: '+94 77 123 4567', // replace placeholder
     phoneHref: 'tel:+94771234567',
     email: 'hello@vanta.fit',
     whatsappHref: 'https://wa.me/94771234567',
@@ -471,15 +473,15 @@ Located in `TrialSection` (`#trial`). Two columns on desktop: reassurance copy p
 
 ### Fields
 
-| Field | Control | Validation |
-|---|---|---|
-| Full name | `Input` | `isNotEmpty` |
-| Phone | `Input type="tel"` | `isPhone` |
-| Email | `Input type="email"` | `isEmail` |
-| Date | `DatePicker` (+ hidden input) | `isTodayOrFuture` |
-| Time | `Select` (from `TIME_SLOTS`) | required |
-| Goal | `Select` (from `TRAINING_GOALS`) | required |
-| `website` | Hidden honeypot | Must be empty |
+| Field     | Control                          | Validation        |
+| --------- | -------------------------------- | ----------------- |
+| Full name | `Input`                          | `isNotEmpty`      |
+| Phone     | `Input type="tel"`               | `isPhone`         |
+| Email     | `Input type="email"`             | `isEmail`         |
+| Date      | `DatePicker` (+ hidden input)    | `isTodayOrFuture` |
+| Time      | `Select` (from `TIME_SLOTS`)     | required          |
+| Goal      | `Select` (from `TRAINING_GOALS`) | required          |
+| `website` | Hidden honeypot                  | Must be empty     |
 
 ### Behaviour
 
@@ -540,7 +542,7 @@ Target: **WCAG 2.1 AA**.
 - **`HealthClub` JSON-LD** built from `SITE` (name, phone, email, address, opening hours, URL), rendered once in `page.tsx`.
 - `app/sitemap.ts` and `app/robots.ts`.
 - Heading hierarchy as in [section 14](#14-accessibility).
-- Page title: *VANTA | Performance Gym in Colombo 03*.
+- Page title: _VANTA | Performance Gym in Colombo 03_.
 - Use real URLs in social links; don't ship `href="#"`.
 
 ---
@@ -565,7 +567,7 @@ Target: **WCAG 2.1 AA**.
 - **Use `asChild`** for link-styled buttons.
 - **Semantic tokens only** in components (no raw hex, no ad-hoc `vanta-*`).
 - **Imports:** use the `@/` alias everywhere (no `../` across folders).
-- **Exports:** named exports for components; `default` only for Next.js pages/layouts. *(Currently mixed, normalise when convenient.)*
+- **Exports:** named exports for components; `default` only for Next.js pages/layouts. _(Currently mixed, normalise when convenient.)_
 - **One reveal per section.**
 - **No content in components.** Move copy, numbers and URLs to `src/data`.
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`).
@@ -670,12 +672,12 @@ Repeat for `Gallerypreview → GalleryPreview`, `Datepicker → DatePicker`, `Si
 
 ### Copy punctuation fixes
 
-| Where | Fix |
-|---|---|
-| Hero | "built for output**,** not a place to just show up" |
-| WhyVanta | "in real time**,** not just checking you in" |
-| WhyVanta | "intent**, and** that standard is contagious" |
-| WhyVanta | "entry**-**level basics" |
+| Where    | Fix                                                     |
+| -------- | ------------------------------------------------------- |
+| Hero     | "built for output**,** not a place to just show up"     |
+| WhyVanta | "in real time**,** not just checking you in"            |
+| WhyVanta | "intent**, and** that standard is contagious"           |
+| WhyVanta | "entry**-**level basics"                                |
 | Trainers | "national**-**level powerlifter"; "train pain**-**free" |
 
 ---
@@ -714,12 +716,14 @@ Recommended: **Vercel**.
 ## 22. Roadmap
 
 **Now (launch):** Batches 1–4 from the QA plan:
+
 1. Fix blockers: fonts, tokens, Button, CTA targets
 2. Build `page.tsx`, trial form, contact, final CTA, mobile bar
 3. Accessibility and polish: nav, motion, hero, footer, list semantics
 4. Cleanup, SEO and real content
 
 **Later:**
+
 - Dedicated `/programs`, `/memberships`, `/trainers` pages (convert anchors to `/#section` and reuse the `Featured*` components)
 - `TrainerProfile` pages at `/trainers/[id]`
 - Membership FAQ
@@ -731,12 +735,12 @@ Recommended: **Vercel**.
 
 ## Open decisions
 
-| # | Question | Recommendation |
-|---|---|---|
-| 1 | Single page or multi-page? | Single page for launch |
-| 2 | Where do trial leads go? | Email via Resend |
-| 3 | 6 or 7 programs? | Derive the stat from data; trim to 6 if the brand promise is "6 core programs" |
-| 4 | Full-screen mobile menu or dropdown? | Full-screen, per the blueprint |
+| #   | Question                             | Recommendation                                                                 |
+| --- | ------------------------------------ | ------------------------------------------------------------------------------ |
+| 1   | Single page or multi-page?           | Single page for launch                                                         |
+| 2   | Where do trial leads go?             | Email via Resend                                                               |
+| 3   | 6 or 7 programs?                     | Derive the stat from data; trim to 6 if the brand promise is "6 core programs" |
+| 4   | Full-screen mobile menu or dropdown? | Full-screen, per the blueprint                                                 |
 
 ---
 

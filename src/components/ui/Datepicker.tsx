@@ -68,7 +68,10 @@ export default function DatePicker({
 
   return (
     <div className="flex w-full flex-col gap-1.5">
-      <label htmlFor={triggerId} className="text-sm font-medium text-foreground">
+      <label
+        htmlFor={triggerId}
+        className="text-sm font-medium text-foreground"
+      >
         {label}
         {required && (
           <span className="ml-0.5 text-muted-foreground" aria-hidden>
@@ -147,7 +150,8 @@ export default function DatePicker({
                 day: 'size-10 p-0 text-center text-sm',
                 day_button:
                   'size-10 cursor-pointer rounded-md transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary',
-                today: '[&>button]:ring-1 [&>button]:ring-inset [&>button]:ring-primary',
+                today:
+                  '[&>button]:ring-1 [&>button]:ring-inset [&>button]:ring-primary',
                 selected:
                   '[&>button]:bg-primary [&>button]:font-semibold [&>button]:text-primary-foreground [&>button:hover]:bg-lime-hover',
                 outside: 'opacity-40',

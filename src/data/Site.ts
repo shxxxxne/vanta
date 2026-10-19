@@ -1,4 +1,3 @@
-
 const ADDRESS = {
   line1: '123 Galle Road', // TODO: Replace with the real street address
   area: 'Colombo 03',

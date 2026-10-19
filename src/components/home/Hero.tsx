@@ -51,9 +51,9 @@ export default function Hero({
 
         <HeroReveal delay={0.2}>
           <p className="max-w-xl text-lg text-muted-foreground md:text-xl">
-            A private training ground for people serious about getting
-            stronger. Structured programming, real coaching, and a floor built
-            for output not a place to just show up.
+            A private training ground for people serious about getting stronger.
+            Structured programming, real coaching, and a floor built for output
+            not a place to just show up.
           </p>
         </HeroReveal>
 

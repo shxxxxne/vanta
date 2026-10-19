@@ -10,8 +10,10 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary: 'bg-primary text-primary-foreground hover:bg-primary-hover',
-        secondary: 'border border-border bg-transparent text-foreground hover:bg-accent',
-        outline: 'border border-line-strong bg-transparent text-foreground hover:bg-surface',
+        secondary:
+          'border border-border bg-transparent text-foreground hover:bg-accent',
+        outline:
+          'border border-line-strong bg-transparent text-foreground hover:bg-surface',
         ghost: 'bg-transparent text-foreground hover:text-primary',
       },
       size: {
@@ -28,7 +30,12 @@ type ButtonProps = ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & { asChild?: boolean };
 
 export function Button({
-  className, variant, size, asChild = false, type = 'button', ...props
+  className,
+  variant,
+  size,
+  asChild = false,
+  type = 'button',
+  ...props
 }: ButtonProps) {
   const Comp = asChild ? Slot : 'button';
   return (

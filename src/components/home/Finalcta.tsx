@@ -49,7 +49,11 @@ export default function FinalCTA() {
                 size="lg"
                 className="w-full sm:w-auto"
               >
-                <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={WHATSAPP_HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   WhatsApp
                 </a>
               </Button>

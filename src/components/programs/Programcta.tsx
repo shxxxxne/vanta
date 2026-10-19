@@ -48,7 +48,11 @@ export default function ProgramCTA({
                 size="lg"
                 className="w-full px-8 sm:w-auto"
               >
-                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Message on WhatsApp
                 </a>
               </Button>

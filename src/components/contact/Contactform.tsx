@@ -1,13 +1,7 @@
-
 'use client';
 
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
-import {
-  AlertCircle,
-  CheckCircle2,
-  Loader2,
-  Send,
-} from 'lucide-react';
+import { AlertCircle, CheckCircle2, Loader2, Send } from 'lucide-react';
 
 import ButtonPress from '@/components/animations/ButtonPress';
 import Input from '@/components/ui/Input';
@@ -38,14 +32,7 @@ type Field = keyof Values;
 type Errors = Partial<Record<Field, string>>;
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
-const FIELD_ORDER: Field[] = [
-  'name',
-  'phone',
-  'email',
-  'date',
-  'time',
-  'goal',
-];
+const FIELD_ORDER: Field[] = ['name', 'phone', 'email', 'date', 'time', 'goal'];
 
 const INITIAL: Values = {
   name: '',
@@ -56,8 +43,7 @@ const INITIAL: Values = {
   goal: '',
 };
 
-const CARD =
-  'rounded-2xl border border-line bg-surface-raised p-6 sm:p-8';
+const CARD = 'rounded-2xl border border-line bg-surface-raised p-6 sm:p-8';
 
 function validateField(
   field: Field,
@@ -132,9 +118,7 @@ interface ContactFormProps {
   className?: string;
 }
 
-export default function ContactForm({
-  className,
-}: ContactFormProps) {
+export default function ContactForm({ className }: ContactFormProps) {
   const [values, setValues] = useState<Values>(INITIAL);
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>('idle');
@@ -184,9 +168,7 @@ export default function ContactForm({
     const nextErrors = validateAll(values, today);
     setErrors(nextErrors);
 
-    const firstInvalid = FIELD_ORDER.find(
-      (field) => nextErrors[field],
-    );
+    const firstInvalid = FIELD_ORDER.find((field) => nextErrors[field]);
 
     if (firstInvalid) {
       document.getElementById(`trial-${firstInvalid}`)?.focus();
@@ -209,19 +191,13 @@ export default function ContactForm({
     setStatus('idle');
   };
 
-  const selectedSlot = TIME_SLOTS.find(
-    (slot) => slot.value === values.time,
-  );
+  const selectedSlot = TIME_SLOTS.find((slot) => slot.value === values.time);
 
   if (status === 'success') {
     return (
       <div
         role="status"
-        className={cn(
-          CARD,
-          'flex flex-col items-start gap-5',
-          className,
-        )}
+        className={cn(CARD, 'flex flex-col items-start gap-5', className)}
       >
         <span
           aria-hidden="true"
@@ -264,8 +240,8 @@ export default function ContactForm({
       </h2>
 
       <p className="mt-2 text-base text-muted-foreground">
-        Ready to train with VANTA? Choose a convenient time and tell us
-        what you want to achieve.
+        Ready to train with VANTA? Choose a convenient time and tell us what you
+        want to achieve.
       </p>
 
       <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -355,10 +331,7 @@ export default function ContactForm({
           role="alert"
           className="mt-5 flex items-start gap-2 text-sm text-destructive"
         >
-          <AlertCircle
-            className="mt-0.5 size-4 shrink-0"
-            aria-hidden="true"
-          />
+          <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
           We couldn't submit your booking. Please try again or call{' '}
           {SITE.contact.phone}.
         </p>
@@ -373,10 +346,7 @@ export default function ContactForm({
         >
           {status === 'submitting' ? (
             <>
-              <Loader2
-                className="size-4 animate-spin"
-                aria-hidden="true"
-              />
+              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
               Booking...
             </>
           ) : (
@@ -389,8 +359,8 @@ export default function ContactForm({
       </ButtonPress>
 
       <p className="mt-4 text-center text-sm text-muted-foreground">
-        No commitment required. Our team will contact you to confirm
-        your session.
+        No commitment required. Our team will contact you to confirm your
+        session.
       </p>
     </form>
   );

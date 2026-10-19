@@ -157,11 +157,7 @@ export function Navbar() {
               {SITE.contact.phone}
             </a>
 
-            <Link
-              href="#contact"
-              onClick={closeMenu}
-              className="mt-2"
-            >
+            <Link href="#contact" onClick={closeMenu} className="mt-2">
               <Button className="w-full uppercase tracking-wide">
                 Book Free Trial
               </Button>

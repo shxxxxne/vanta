@@ -62,38 +62,30 @@ export default function WhyVanta() {
           <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-2 lg:items-center lg:gap-16">
             {/* Reasons */}
             <ul className="order-2 flex flex-col gap-6 lg:order-1">
-              {reasons.map(
-                ({ icon: Icon, title, description }, index) => (
-                  <ScrollReveal
-                    key={title}
-                    delay={0.1 + index * 0.08}
-                  >
-                    <HoverLift>
-                      <li className="flex items-start gap-4">
-                        <span
-                          aria-hidden="true"
-                          className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-line-strong bg-surface-raised text-lime"
-                        >
-                          <Icon
-                            className="size-6"
-                            strokeWidth={1.75}
-                          />
-                        </span>
+              {reasons.map(({ icon: Icon, title, description }, index) => (
+                <ScrollReveal key={title} delay={0.1 + index * 0.08}>
+                  <HoverLift>
+                    <li className="flex items-start gap-4">
+                      <span
+                        aria-hidden="true"
+                        className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-line-strong bg-surface-raised text-lime"
+                      >
+                        <Icon className="size-6" strokeWidth={1.75} />
+                      </span>
 
-                        <div>
-                          <h3 className="text-lg font-semibold text-foreground">
-                            {title}
-                          </h3>
+                      <div>
+                        <h3 className="text-lg font-semibold text-foreground">
+                          {title}
+                        </h3>
 
-                          <p className="mt-1 text-sm text-muted-foreground sm:text-base">
-                            {description}
-                          </p>
-                        </div>
-                      </li>
-                    </HoverLift>
-                  </ScrollReveal>
-                ),
-              )}
+                        <p className="mt-1 text-sm text-muted-foreground sm:text-base">
+                          {description}
+                        </p>
+                      </div>
+                    </li>
+                  </HoverLift>
+                </ScrollReveal>
+              ))}
             </ul>
 
             {/* Image */}
