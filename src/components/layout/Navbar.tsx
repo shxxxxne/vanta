@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { SITE } from '@/data/Site';
 import { Button } from '@/components/ui/Button';
@@ -9,8 +10,33 @@ import ButtonPress from '../animations/ButtonPress';
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const closeMenu = () => setMenuOpen(false);
+
+  const handleNavClick = (href: string) => {
+    closeMenu();
+
+    // Normalize paths to handle trailing slashes
+    const normalizePath = (path: string) => {
+      if (path.length > 1) {
+        return path.replace(/\/+$/, '');
+      }
+
+      return path;
+    };
+
+    const currentPath = normalizePath(pathname);
+    const targetPath = normalizePath(href);
+
+    // Clicking the current page scrolls back to the top
+    if (currentPath === targetPath) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <header className="fixed inset-x-0 top-0 z-[var(--z-nav)] border-b border-border bg-background/95 backdrop-blur-md">
@@ -21,6 +47,7 @@ export function Navbar() {
         {/* Logo */}
         <Link
           href="/"
+          onClick={() => handleNavClick('/')}
           className="font-display text-xl font-bold tracking-[-0.04em] text-foreground transition-colors hover:text-primary"
           aria-label="VANTA home"
         >
@@ -33,6 +60,7 @@ export function Navbar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => handleNavClick(item.href)}
               className="font-sans text-sm font-medium text-vanta-white transition-colors duration-200 hover:text-lime"
             >
               {item.label}
@@ -49,22 +77,22 @@ export function Navbar() {
             {SITE.contact.phone}
           </a>
 
-<ButtonPress>
-          <Link href="#contact">
-            <Button>Book Free Trial</Button>
-          </Link>
-</ButtonPress>
+          <ButtonPress>
+            <Link href="#contact">
+              <Button>Book Free Trial</Button>
+            </Link>
+          </ButtonPress>
         </div>
 
         {/* Mobile actions */}
         <div className="flex items-center gap-2 md:hidden">
           <ButtonPress>
-          <Link href="#contact" onClick={closeMenu}>
-            <Button className="px-3.5 py-2 text-xs uppercase tracking-wide">
-              Free Trial
-            </Button>
-          </Link>
-</ButtonPress>
+            <Link href="#contact" onClick={closeMenu}>
+              <Button className="px-3.5 py-2 text-xs uppercase tracking-wide">
+                Free Trial
+              </Button>
+            </Link>
+          </ButtonPress>
 
           <button
             type="button"
@@ -114,7 +142,7 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={closeMenu}
+                onClick={() => handleNavClick(item.href)}
                 className="border-b border-border py-4 font-display text-lg font-semibold uppercase tracking-tight text-foreground transition-colors hover:text-primary"
               >
                 {item.label}
@@ -129,7 +157,11 @@ export function Navbar() {
               {SITE.contact.phone}
             </a>
 
-            <Link href="#contact" onClick={closeMenu} className="mt-2">
+            <Link
+              href="#contact"
+              onClick={closeMenu}
+              className="mt-2"
+            >
               <Button className="w-full uppercase tracking-wide">
                 Book Free Trial
               </Button>
