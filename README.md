@@ -84,7 +84,7 @@ cp .env.example .env.local   # then fill in values (see section 5)
 npm run dev
 ```
 
-Open <http://localhost:3000>.
+Open <https://vanta-xi-olive.vercel.app/>.
 
 ### Optional: initialise shadcn/ui
 
